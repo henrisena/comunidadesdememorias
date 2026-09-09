@@ -35,13 +35,6 @@ const comunidades = [
   {nome:'Bete 2',status:'revisar'}
 ];
 
-/*
-  Três níveis de precisão:
-  referencia-local = coordenada de equipamento/endereço situado explicitamente na comunidade;
-  cartografica = posição aproximada lida na cartografia IBGE fornecida ao projeto;
-  campo = coordenada registrada e conferida pela equipe em visita.
-  Um equipamento não é apresentado como "centro" da comunidade: ele funciona como ponto de referência.
-*/
 const pontosConfirmados = [
   {nome:'Onze Mil Virgens',lat:-12.502039,lng:-38.954933,status:'visitada',precisao:'referencia-local',referencia:'Escola Constantino Ferreira de Miranda',nota:'Comunidade visitada. Marcador refinado por coordenada publicada para a Escola Constantino Ferreira de Miranda, cujo endereço é Povoado das Onze Mil Virgens. O IBGE também registra Onze Mil Virgens como povoado rural.'},
   {nome:'Mangabeira',lat:-12.475,lng:-38.980,status:'cartografica',precisao:'cartografica',referencia:'Escola Manoel Ribeiro Brandão',nota:'Localidade identificada na cartografia do IBGE e em registros escolares municipais. A escola funciona como referência documental; o ponto permanece aproximado até conferência em campo.'},
@@ -54,8 +47,6 @@ const pontosConfirmados = [
   {nome:'Baixinha da Pindobeira',lat:-12.507,lng:-38.956,status:'visitada',precisao:'cartografica',referencia:'Escola Maria Eunice Xavier Borja / USF Moacyr Ozório Pascoal',nota:'Comunidade visitada. A existência e o nome atual são corroborados por escola municipal e unidade de saúde com endereço no Povoado Baixinha da Pindobeira. O marcador ainda deriva da leitura cartográfica e precisa ser conferido pela equipe.'},
   {nome:'Teiru',lat:-12.480,lng:-38.975,status:'visitada',precisao:'cartografica',referencia:'Estrada Teru–Taperinha em documento territorial estadual',nota:'Comunidade visitada. A documentação territorial registra a variante Teru na estrada Teru–Taperinha. O marcador permanece aproximado: a referência de estrada não define o centro da comunidade.'}
 ];
-
-/* Cajazeira já foi visitada, mas ainda não recebeu ponto seguro. As fontes atuais confirmam Cajazeira/Cajazeiras como localidade, porém sem coordenada pública suficientemente precisa para definir o marcador. */
 
 const conexoesDocumentadas = [];
 
@@ -75,13 +66,17 @@ function legendaPrecisao(precisao){
   return 'Posição cartográfica aproximada — não é coordenada definitiva';
 }
 
+function urlComunidade(nome){
+  return `comunidade.html?nome=${encodeURIComponent(nome)}`;
+}
+
 function renderLista(el, limite){
   if(!el) return;
   const itens = limite ? comunidades.slice(0,limite) : comunidades;
-  el.innerHTML = itens.map((c,i)=>`<article class="item-comunidade" data-status="${c.status}">
+  el.innerHTML = itens.map((c,i)=>`<a class="item-comunidade" data-status="${c.status}" href="${urlComunidade(c.nome)}">
     <div class="numero-comunidade">${String(i+1).padStart(2,'0')}</div>
-    <div><h3>${c.nome}</h3><p>${etiquetaStatus(c.status)}</p></div>
-  </article>`).join('');
+    <div><h3>${c.nome}</h3><p>${etiquetaStatus(c.status)}</p><span class="abrir-comunidade">Abrir comunidade</span></div>
+  </a>`).join('');
 }
 
 function iniciarMapa(){
@@ -105,7 +100,7 @@ function iniciarMapa(){
       fillColor:cor,
       fillOpacity:precisa?1:.72
     }).addTo(m);
-    marcador.bindPopup(`<b>${p.nome}</b><br>${etiquetaStatus(p.status)}<br><em>${legendaPrecisao(p.precisao)}.</em>${p.referencia?`<br><strong>Referência:</strong> ${p.referencia}`:''}${p.nota?`<br><small>${p.nota}</small>`:''}${p.pagina?`<br><a href="${p.pagina}">Conhecer a comunidade</a>`:''}`);
+    marcador.bindPopup(`<b>${p.nome}</b><br>${etiquetaStatus(p.status)}<br><em>${legendaPrecisao(p.precisao)}.</em>${p.referencia?`<br><strong>Referência:</strong> ${p.referencia}`:''}${p.nota?`<br><small>${p.nota}</small>`:''}<br><a class="popup-botao" href="${urlComunidade(p.nome)}">Conhecer a comunidade</a>`);
   });
 
   conexoesDocumentadas.forEach(c=>{
@@ -139,10 +134,40 @@ function filtrarComunidades(){
   });
 }
 
+function renderPaginaComunidade(){
+  const titulo=document.getElementById('nome-comunidade');
+  if(!titulo) return;
+  const params=new URLSearchParams(window.location.search);
+  const nome=params.get('nome') || '';
+  const comunidade=comunidades.find(c=>c.nome===nome);
+  if(!comunidade){
+    titulo.textContent='Comunidade não encontrada';
+    const intro=document.getElementById('intro-comunidade');
+    if(intro) intro.textContent='Volte à cartografia para escolher uma comunidade identificada pela pesquisa.';
+    return;
+  }
+  document.title=`${comunidade.nome} | Comunidades de Memória`;
+  titulo.textContent=comunidade.nome;
+  const status=document.getElementById('status-comunidade');
+  if(status) status.textContent=etiquetaStatus(comunidade.status);
+  const intro=document.getElementById('intro-comunidade');
+  if(intro) intro.textContent=comunidade.status==='visitada'
+    ? 'Esta comunidade já foi visitada pelo projeto. A página será ampliada com as fontes, trajetórias, fotografias, objetos, lugares e questões produzidas na pesquisa de campo.'
+    : 'Esta página faz parte da cartografia aberta do projeto. Ela será ampliada à medida que a pesquisa reunir fontes, trajetórias, fotografias, objetos, lugares e questões sobre a comunidade.';
+  const ponto=pontosConfirmados.find(p=>p.nome===comunidade.nome);
+  const carto=document.getElementById('cartografia-comunidade');
+  if(carto){
+    carto.innerHTML=ponto
+      ? `<p><b>Situação cartográfica:</b> ${legendaPrecisao(ponto.precisao)}.</p>${ponto.referencia?`<p><b>Referência:</b> ${ponto.referencia}</p>`:''}${ponto.nota?`<p>${ponto.nota}</p>`:''}<p><a href="index.html#cartografia">Ver no mapa geral</a></p>`
+      : '<p>A localização desta comunidade ainda não possui marcador publicado. Confirmar a posição é parte da própria pesquisa.</p><p><a href="index.html#cartografia">Ver mapa geral</a></p>';
+  }
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
   renderLista(document.getElementById('lista-resumo'),12);
   renderLista(document.getElementById('lista-completa'));
   atualizarNumeros();
   iniciarMapa();
   filtrarComunidades();
+  renderPaginaComunidade();
 });
