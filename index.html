@@ -7,42 +7,57 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
-<body>
+<body data-page="home">
 <header class="topo">
   <a class="marca" href="index.html">Comunidades de Memória<small>Trabalho, cultura e identidade no mundo rural de Conceição da Feira</small></a>
   <nav>
-    <a href="#comunidades">Comunidades</a><a href="mulheres.html">Mulheres</a><a href="memorias.html">Memórias</a><a href="objetos.html">Objetos</a><a href="album.html">Álbum</a><a href="caderno.html">Caderno de campo</a><a href="sobre.html">Sobre</a>
+    <a href="comunidades.html">Comunidades</a><a href="mulheres.html">Mulheres</a><a href="memorias.html">Memórias</a><a href="objetos.html">Objetos</a><a href="album.html">Álbum</a><a href="caderno.html">Caderno de campo</a><a href="sobre.html">Sobre</a>
   </nav>
 </header>
 <main>
-<section class="hero">
-  <div class="hero-texto"><span>PIBID • território • memória</span><h1>Comunidades<br>de Memória</h1><p>Um arquivo digital construído com estudantes a partir de percursos, fotografias, objetos, vozes e histórias do mundo rural de Conceição da Feira.</p></div>
-  <div class="hero-imagem"><div class="paisagem"></div><p>FOTOGRAFAR • ESCUTAR • INVESTIGAR • MAPEAR</p></div>
+<section class="hero hero-cartografia">
+  <div class="hero-texto"><span>PIBID • território • memória</span><h1>Comunidades<br>de Memória</h1><p>Uma cartografia em construção das comunidades rurais de Conceição da Feira, produzida com estudantes a partir de percursos, fotografias, objetos, vozes e histórias.</p><a class="botao" href="#cartografia">Explorar a cartografia</a></div>
+  <div class="hero-imagem"><div class="paisagem"></div><p>LOCALIZAR • ESCUTAR • INVESTIGAR • RELACIONAR</p></div>
 </section>
-<section class="secao" id="comunidades">
-  <div class="titulo"><h2>Entre pelas comunidades</h2><p>Cada comunidade funciona como uma porta de entrada para o acervo. Dentro dela, o visitante encontra mulheres, memórias, fotografias, objetos, lugares, trabalho e saberes.</p></div>
-  <div class="comunidades-grid">
-    <a class="comunidade um" href="comunidade-01.html"><div><small>COMUNIDADE 01 • DEMONSTRATIVA</small><h3>Paisagem, trabalho e memória</h3><p>2 mulheres • 8 fotografias • 3 objetos • 4 lugares</p></div></a>
-    <a class="comunidade dois" href="comunidade-02.html"><div><small>COMUNIDADE 02 • DEMONSTRATIVA</small><h3>Caminhos, água e cotidiano</h3><p>2 mulheres • 7 fotografias • 4 objetos • 5 lugares</p></div></a>
-  </div>
+
+<section class="secao numeros" aria-label="Situação atual da pesquisa">
+  <div><strong id="total-comunidades">34</strong><span>comunidades identificadas pela pesquisa</span></div>
+  <div><strong id="total-mapeadas">0</strong><span>pontos com localização confirmada</span></div>
+  <div><strong id="total-pesquisa">0</strong><span>comunidades em pesquisa aprofundada</span></div>
+  <div><strong id="total-conexoes">0</strong><span>conexões documentadas no mapa</span></div>
 </section>
-<section class="secao mapa-secao">
-  <div class="titulo"><h2>Cartografia das comunidades</h2><p>O mapa será ampliado à medida que novas localidades forem pesquisadas.</p></div>
+
+<section class="secao mapa-secao" id="cartografia">
+  <div class="titulo"><h2>Cartografia das comunidades</h2><div><p>O mapa não pretende estar completo desde o início. Os marcadores são inseridos somente quando a localização é suficientemente segura. As ausências também indicam o que ainda precisa ser investigado em campo.</p><div class="legenda"><span><i class="ponto confirmado"></i> localização confirmada</span><span><i class="ponto pesquisa"></i> em pesquisa</span><span><i class="linha-legenda"></i> entre comunidades</span></div></div></div>
   <div id="map"></div>
+  <div class="mapa-aviso"><b>Mapa em construção.</b> Uma comunidade pode estar identificada pela pesquisa e ainda não possuir marcador. Nenhuma coordenada aproximada será publicada como se fosse localização confirmada.</div>
 </section>
+
+<section class="secao" id="comunidades">
+  <div class="titulo"><h2>As comunidades</h2><p>Os 34 nomes levantados pela pesquisa aparecem desde já. Cada página poderá crescer de forma desigual: algumas terão entrevistas, fotografias e objetos; outras poderão começar com apenas uma fonte ou com a própria tarefa de localização.</p></div>
+  <div id="lista-resumo" class="lista-comunidades"></div>
+  <p class="central"><a class="botao secundario" href="comunidades.html">Ver todas e acompanhar a pesquisa</a></p>
+</section>
+
+<section class="secao entre-comunidades">
+  <div class="titulo"><h2>Entre comunidades</h2><p>Os relatos já mostram que essas comunidades não são unidades isoladas. Trabalho, casamento, parentesco, escola, festas, religião e circulação criam relações entre lugares. Quando uma relação estiver sustentada por uma fonte, ela poderá aparecer como uma linha no mapa.</p></div>
+  <div class="painel-conexoes"><div class="rede-vazia"><span>○</span><span>○</span><span>○</span><span>○</span></div><div><small>CAMADA PREPARADA • SEM LIGAÇÕES FICTÍCIAS</small><h3>As primeiras linhas virão dos relatos</h3><p>A conexão só será publicada quando soubermos quem a relatou, que tipo de relação existia e quais comunidades estavam envolvidas.</p></div></div>
+</section>
+
 <section class="secao destaque">
-  <div><small>MULHERES NEGRAS • TERRITÓRIO • TRABALHO</small><h2>Mulheres que constroem o mundo rural</h2><p>Trajetórias de trabalho, família, deslocamento, saberes, religiosidade e participação comunitária.</p></div>
-  <a href="mulheres.html">Conhecer as trajetórias →</a>
+  <div><small>MULHERES NEGRAS • TERRITÓRIO • TRABALHO</small><h2>Mulheres que constroem o mundo rural</h2><p>Trajetórias de trabalho, família, deslocamento, saberes, religiosidade e participação comunitária poderão ser percorridas também pelo território.</p></div>
+  <a href="mulheres.html">Conhecer as trajetórias</a>
 </section>
+
 <section class="secao eixos">
-  <div class="titulo"><h2>Outras formas de percorrer o acervo</h2><p>As abas não são coleções isoladas: cada item retorna à comunidade à qual pertence.</p></div>
+  <div class="titulo"><h2>Outras formas de percorrer o acervo</h2><p>As abas não são coleções isoladas: cada fotografia, objeto, depoimento ou trajetória deve retornar à comunidade e às relações territoriais às quais pertence.</p></div>
   <a href="memorias.html"><b>ESCUTAR</b><span>Memórias</span><p>Depoimentos e histórias de vida.</p></a>
   <a href="objetos.html"><b>INVESTIGAR</b><span>Objetos</span><p>Cultura material, trabalho e memória.</p></a>
   <a href="album.html"><b>OLHAR</b><span>Álbum</span><p>Fotografias antigas e registros do presente.</p></a>
   <a href="caderno.html"><b>ACOMPANHAR</b><span>Caderno de campo</span><p>O processo de pesquisa dos estudantes.</p></a>
 </section>
 </main>
-<footer>Projeto PIBID História • Conceição da Feira • Bahia</footer>
+<footer>Projeto PIBID História • Conceição da Feira • Bahia <span>• Acervo em construção</span></footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="script.js"></script>
 </body></html>
