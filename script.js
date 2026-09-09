@@ -7,15 +7,15 @@ const comunidades = [
   {nome:'Murici',status:'localizar'},
   {nome:'Candeal',status:'referencia'},
   {nome:'Capela',status:'localizar'},
-  {nome:'Onze Mil Virgens',status:'referencia'},
+  {nome:'Onze Mil Virgens',status:'visitada'},
   {nome:'Cruzeiro',status:'localizar'},
   {nome:'Timbó',status:'localizar'},
   {nome:'Vitória',status:'localizar'},
   {nome:'Umbalbeira',status:'revisar'},
   {nome:'Serra',status:'localizar'},
   {nome:'Estrada Grande',status:'localizar'},
-  {nome:'Teiru',status:'localizar'},
-  {nome:'Baixinha da Pindobeira',status:'referencia'},
+  {nome:'Teiru',status:'visitada'},
+  {nome:'Baixinha da Pindobeira',status:'visitada'},
   {nome:'Quissanga',status:'localizar'},
   {nome:'Limoeiro',status:'localizar'},
   {nome:'Tabua do Cruzeiro',status:'localizar'},
@@ -23,7 +23,7 @@ const comunidades = [
   {nome:'Bete',status:'revisar'},
   {nome:'Maraçauim',status:'revisar'},
   {nome:'Vieira',status:'localizar'},
-  {nome:'Cajazeira',status:'localizar'},
+  {nome:'Cajazeira',status:'visitada'},
   {nome:'Cruz de Alma',status:'localizar'},
   {nome:'Pau a Pique',status:'localizar'},
   {nome:'Aldeia',status:'localizar'},
@@ -35,23 +35,18 @@ const comunidades = [
   {nome:'Bete 2',status:'revisar'}
 ];
 
-/*
-  Os pontos confirmados devem ser adicionados somente depois da conferência.
-  Formato:
-  {nome:'Nome da comunidade', lat:-12.0000, lng:-38.0000, status:'confirmada', pagina:'comunidade-x.html'}
-*/
-const pontosConfirmados = [];
+/* Pontos entram aqui apenas quando há base cartográfica suficiente para a posição. */
+const pontosConfirmados = [
+  {nome:'Onze Mil Virgens',lat:-12.5053,lng:-38.9557,status:'visitada',nota:'Comunidade visitada pelo projeto. Posição baseada no setor rural do Censo 2022 do IBGE.'}
+];
 
-/*
-  Relações documentadas em entrevistas. Não inserir conexões demonstrativas.
-  Formato:
-  {de:'Grota', para:'Candeal', tipo:'trajetória de vida', fonte:'Entrevista ...'}
-*/
+/* Relações documentadas em entrevistas. Não inserir conexões demonstrativas. */
 const conexoesDocumentadas = [];
 
 function etiquetaStatus(status){
   if(status==='referencia') return 'referência encontrada • ponto a confirmar';
   if(status==='revisar') return 'nome / relação territorial a verificar';
+  if(status==='visitada') return 'comunidade já visitada pelo projeto';
   if(status==='pesquisa') return 'pesquisa em andamento';
   if(status==='confirmada') return 'localização confirmada';
   return 'localização a confirmar em campo';
@@ -77,9 +72,9 @@ function iniciarMapa(){
   }).addTo(m).bindPopup('<b>Sede de Conceição da Feira</b><br><span>Ponto de referência municipal. Não conta como comunidade mapeada.</span>');
 
   pontosConfirmados.forEach(p=>{
-    const cor=p.status==='pesquisa'?'#8b5d3b':'#4d6b58';
+    const cor=p.status==='pesquisa'||p.status==='visitada'?'#8b5d3b':'#4d6b58';
     const marcador=L.circleMarker([p.lat,p.lng],{radius:8,color:'#fff',weight:2,fillColor:cor,fillOpacity:1}).addTo(m);
-    marcador.bindPopup(`<b>${p.nome}</b><br>${etiquetaStatus(p.status)}${p.pagina?`<br><a href="${p.pagina}">Conhecer a comunidade</a>`:''}`);
+    marcador.bindPopup(`<b>${p.nome}</b><br>${etiquetaStatus(p.status)}${p.nota?`<br><small>${p.nota}</small>`:''}${p.pagina?`<br><a href="${p.pagina}">Conhecer a comunidade</a>`:''}`);
   });
 
   conexoesDocumentadas.forEach(c=>{
@@ -96,7 +91,7 @@ function atualizarNumeros(){
   const ids={
     'total-comunidades':comunidades.length,
     'total-mapeadas':pontosConfirmados.length,
-    'total-pesquisa':pontosConfirmados.filter(p=>p.status==='pesquisa').length,
+    'total-pesquisa':comunidades.filter(p=>p.status==='pesquisa'||p.status==='visitada').length,
     'total-conexoes':conexoesDocumentadas.length
   };
   Object.entries(ids).forEach(([id,valor])=>{const el=document.getElementById(id);if(el)el.textContent=valor;});
