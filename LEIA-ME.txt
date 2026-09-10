@@ -1,0 +1,3 @@
+Copie a pasta 'images' para a raiz do repositório comunidadesdememorias.
+Ela deve resultar em: images/baixinha-pindobeira/
+Não substitua index.html, script.js ou style.css.
