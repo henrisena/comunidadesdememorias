@@ -29,7 +29,10 @@
 document.addEventListener('DOMContentLoaded',function(){
   document.querySelectorAll('#lista-completa .item-comunidade').forEach(function(link){
     const nome=link.querySelector('h3');
-    if(nome && nome.textContent.trim()==='Teiru') link.href='teiru.html';
+    if(!nome) return;
+    const comunidade=nome.textContent.trim();
+    if(comunidade==='Teiru') link.href='teiru.html';
+    if(comunidade==='Baixinha da Pindobeira') link.href='baixinha-pindobeira.html';
   });
 });
 </script>
