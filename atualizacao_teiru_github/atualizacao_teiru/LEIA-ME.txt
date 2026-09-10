@@ -1,0 +1,10 @@
+ATUALIZAÇÃO DA PÁGINA DE TEIRU
+
+1. Extraia este ZIP.
+2. Copie comunidade.html, script.js, style.css e a pasta images para dentro da pasta local do repositório comunidadesdememorias.
+3. Quando o Windows perguntar, escolha substituir os arquivos existentes.
+4. Abra o GitHub Desktop e confira as alterações.
+5. Commit sugerido: Reformula página de Teiru e adiciona registros da primeira visita
+6. Clique em Push origin.
+
+A pasta images/teiru precisa permanecer exatamente com esse nome e estrutura.
