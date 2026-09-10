@@ -25,4 +25,12 @@
 </main>
 <footer>Projeto PIBID História • Conceição da Feira • Bahia <span>• Acervo em construção</span></footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('#lista-completa .item-comunidade').forEach(function(link){
+    const nome=link.querySelector('h3');
+    if(nome && nome.textContent.trim()==='Teiru') link.href='teiru.html';
+  });
+});
+</script>
 </body></html>
