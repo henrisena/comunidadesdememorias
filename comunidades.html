@@ -6,6 +6,7 @@
 <title>Comunidades | Comunidades de Memória</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="comunidades.css">
 </head>
 <body data-page="comunidades">
 <header class="topo">
@@ -27,12 +28,24 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="script.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded',function(){
+  const capas={
+    'Teiru':{href:'teiru.html',src:'images/teiru/praca-teiru.jpeg',alt:'Praça da comunidade de Teiru'},
+    'Baixinha da Pindobeira':{href:'baixinha-pindobeira.html',src:'images/baixinha-pindobeira/praca-escola.jpeg',alt:'Praça e escola da Baixinha da Pindobeira'}
+  };
   document.querySelectorAll('#lista-completa .item-comunidade').forEach(function(link){
     const nome=link.querySelector('h3');
     if(!nome) return;
     const comunidade=nome.textContent.trim();
-    if(comunidade==='Teiru') link.href='teiru.html';
-    if(comunidade==='Baixinha da Pindobeira') link.href='baixinha-pindobeira.html';
+    const capa=capas[comunidade];
+    if(!capa) return;
+    link.href=capa.href;
+    link.classList.add('com-imagem');
+    const img=document.createElement('img');
+    img.className='card-comunidade-imagem';
+    img.src=capa.src;
+    img.alt=capa.alt;
+    img.loading='lazy';
+    link.insertBefore(img,link.firstChild);
   });
 });
 </script>
