@@ -1,0 +1,7 @@
+#lista-completa .item-comunidade.com-imagem{padding:0;grid-template-columns:auto 1fr;grid-template-rows:170px auto;overflow:hidden;background:var(--papel)}
+#lista-completa .item-comunidade.com-imagem .card-comunidade-imagem{grid-column:1/-1;width:100%;height:170px;object-fit:cover;display:block;border-bottom:1px solid var(--linha)}
+#lista-completa .item-comunidade.com-imagem .numero-comunidade{margin:18px 0 18px 18px;align-self:start}
+#lista-completa .item-comunidade.com-imagem>div:last-child{padding:18px 18px 18px 0}
+#lista-completa .item-comunidade.com-imagem h3{font-size:1.55rem}
+#lista-completa .item-comunidade.com-imagem .abrir-comunidade{margin-top:12px}
+@media(max-width:600px){#lista-completa .item-comunidade.com-imagem{grid-template-rows:200px auto}#lista-completa .item-comunidade.com-imagem .card-comunidade-imagem{height:200px}}
