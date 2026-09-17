@@ -1,3 +1,1 @@
-Copie a pasta 'images' para a raiz do repositório comunidadesdememorias.
-Ela deve resultar em: images/baixinha-pindobeira/
-Não substitua index.html, script.js ou style.css.
+Copie candeal.html, candeal.css e a pasta images para a RAIZ do repositório. NÃO substitua index.html, comunidades.html, script.js ou style.css. Faça Commit e Push. Depois me avise para eu ligar o cartão Candeal à página. A imagem da abertura da Home já está no GitHub.
