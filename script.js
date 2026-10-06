@@ -23,7 +23,7 @@ const comunidades = [
   {nome:'Bete',status:'revisar'},
   {nome:'Maraçauim',status:'revisar'},
   {nome:'Vieira',status:'cartografica'},
-  {nome:'Cajazeira',status:'visitada'},
+  {nome:'Cajazeira',status:'localizar'},
   {nome:'Cruz de Alma',status:'localizar'},
   {nome:'Pau a Pique',status:'localizar'},
   {nome:'Aldeia',status:'localizar'},
@@ -52,12 +52,12 @@ const conexoesDocumentadas = [];
 
 function etiquetaStatus(status){
   if(status==='referencia') return 'referência encontrada • ponto a confirmar';
-  if(status==='cartografica') return 'localização cartográfica • a confirmar em campo';
+  if(status==='cartografica') return 'localização cartográfica';
   if(status==='revisar') return 'nome / relação territorial a verificar';
   if(status==='visitada') return 'comunidade já visitada pelo projeto';
   if(status==='pesquisa') return 'pesquisa em andamento';
   if(status==='confirmada') return 'localização confirmada em campo';
-  return 'localização a confirmar em campo';
+  return 'localidade identificada no levantamento';
 }
 
 function legendaPrecisao(precisao){
@@ -100,7 +100,14 @@ function iniciarMapa(){
       fillColor:cor,
       fillOpacity:precisa?1:.72
     }).addTo(m);
-    marcador.bindPopup(`<b>${p.nome}</b><br>${etiquetaStatus(p.status)}<br><em>${legendaPrecisao(p.precisao)}.</em>${p.referencia?`<br><strong>Referência:</strong> ${p.referencia}`:''}${p.nota?`<br><small>${p.nota}</small>`:''}<br><a class="popup-botao" href="${urlComunidade(p.nome)}">Conhecer a comunidade</a>`);
+    // Somente comunidades efetivamente visitadas recebem interação no mapa.
+    // Os demais pontos permanecem apenas como referências cartográficas visuais.
+    if(visitada){
+      marcador.bindPopup(`<b>${p.nome}</b><br><a class="popup-botao" href="${urlComunidade(p.nome)}">Conhecer a comunidade</a>`);
+    } else {
+      marcador.options.interactive = false;
+      marcador.off();
+    }
   });
 
   conexoesDocumentadas.forEach(c=>{
