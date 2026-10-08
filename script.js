@@ -67,7 +67,13 @@ function legendaPrecisao(precisao){
 }
 
 function urlComunidade(nome){
-  return `comunidade.html?nome=${encodeURIComponent(nome)}`;
+  const paginas={
+    'Teiru':'teiru.html',
+    'Onze Mil Virgens':'onze-mil-virgens.html',
+    'Baixinha da Pindobeira':'baixinha-pindobeira.html',
+    'Candeal':'candeal.html'
+  };
+  return paginas[nome] || `comunidade.html?nome=${encodeURIComponent(nome)}`;
 }
 
 function renderLista(el, limite){
@@ -100,13 +106,15 @@ function iniciarMapa(){
       fillColor:cor,
       fillOpacity:precisa?1:.72
     }).addTo(m);
-    // Somente comunidades efetivamente visitadas recebem interação no mapa.
-    // Os demais pontos permanecem apenas como referências cartográficas visuais.
+    // Todos os pontos identificam a localidade ao passar o mouse.
+    // Somente as comunidades visitadas podem ser clicadas e abrir uma página.
+    marcador.bindTooltip(p.nome,{direction:'top',offset:[0,-8],opacity:.95});
     if(visitada){
-      marcador.bindPopup(`<b>${p.nome}</b><br><a class="popup-botao" href="${urlComunidade(p.nome)}">Conhecer a comunidade</a>`);
+      marcador.on('click',()=>{ window.location.href=urlComunidade(p.nome); });
     } else {
-      marcador.options.interactive = false;
-      marcador.off();
+      marcador.on('click',function(e){
+        if(e.originalEvent) L.DomEvent.stopPropagation(e.originalEvent);
+      });
     }
   });
 
