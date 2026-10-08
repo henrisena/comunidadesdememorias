@@ -50,11 +50,19 @@
 <section class="ficha-entrevista">
 <span class="eyebrow">FONTE ORAL</span><h2>Entrevista com Seu Bibi</h2>
 <div class="ficha-grid"><p><b>Entrevistado</b><br>Seu Bibi</p><p><b>Local</b><br>Onze Mil Virgens</p><p><b>Município</b><br>Conceição da Feira, Bahia</p><p><b>Acervo</b><br>Comunidades de Memória • PIBID História/UFRB</p></div>
-<div class="fonte-disponibilidade"><p><b>Áudio e transcrição</b></p><p>A entrevista foi registrada em áudio e transcrita para o trabalho de pesquisa. A transcrição foi revista a partir do reconhecimento automático, preservando características da oralidade e assinalando passagens incertas.</p><p class="audio-aviso">Quando o arquivo de áudio for incorporado ao repositório, esta ficha poderá receber o player e os atalhos para os trechos marcados, sem alterar a narrativa da página.</p></div>
+<div class="fonte-disponibilidade"><p><b>Ouvir a entrevista</b></p><audio id="audio-seu-bibi" controls preload="metadata" style="width:100%"><source src="audio/onze-mil-virgens/seu-bibi.m4a.m4a" type="audio/mp4">Seu navegador não oferece suporte ao player de áudio.</audio><p>A entrevista foi registrada em áudio e transcrita para o trabalho de pesquisa. A transcrição foi revista a partir do reconhecimento automático, preservando características da oralidade e assinalando passagens incertas.</p></div>
 </section>
 </main>
 <footer>Projeto PIBID História • Conceição da Feira • Bahia</footer>
 <script>
-document.querySelectorAll('.tempo-audio').forEach(function(botao){botao.addEventListener('click',function(){alert('O áudio da entrevista ainda não está incorporado ao site. O trecho indicado começa em 18:49.');});});
+const audioSeuBibi=document.getElementById('audio-seu-bibi');
+document.querySelectorAll('.tempo-audio').forEach(function(botao){
+  botao.addEventListener('click',function(){
+    if(!audioSeuBibi)return;
+    audioSeuBibi.currentTime=Number(this.dataset.time||0);
+    audioSeuBibi.play();
+    audioSeuBibi.scrollIntoView({behavior:'smooth',block:'center'});
+  });
+});
 </script>
 </body></html>
